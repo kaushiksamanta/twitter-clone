@@ -5,11 +5,9 @@ var login ={
     method: 'POST',
     path: '/api/Login',
     config: {
-        // "tags" enable swagger to document API
         tags: ['api'],
         description: 'Login Into Your Account',
         notes: 'Login Into Your Account',
-        // We use Joi plugin to validate request
         validate: {
             payload: {
                 email: Joi.string().required(),
