@@ -1,11 +1,11 @@
 var Hapi = require('hapi');
 var Joi = require('joi');
-var register = require('./routes/register');
-var login = require('./routes/login');
+var routes = require('./routes/index');
+var config = require('./config/config');
 var server = new Hapi.Server();
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/twitterclone');
-server.connection({port: 7002});
+mongoose.connect(config.mongo.host);
+server.connection(config.server);
 server.register({
     register: require('hapi-swagger'),
     options: {
@@ -18,8 +18,8 @@ server.register({
         server.log(['start'], 'hapi-swagger interface loaded')
     }
 });
-server.route(register);
-server.route(login);
+server.route(routes.register);
+server.route(routes.login);
 server.start(function () {
     console.log('Server running at:', server.info.uri);
 });

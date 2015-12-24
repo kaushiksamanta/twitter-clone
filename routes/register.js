@@ -1,6 +1,7 @@
 var Hapi = require('hapi');
 var Joi = require('joi');
 var UserModel = require('../models/user');
+var controller = require('../controllers/index');
 var register ={
     method: 'POST',
     path: '/api/Register',
@@ -17,21 +18,6 @@ var register ={
             }
         }
     },
-    handler: function (request, reply) {
-        var user = new UserModel(request.payload);
-        user.save(function (error) {
-            if (error) {
-                reply({
-                    statusCode: 503,
-                    message: error
-                });
-            } else {
-                reply({
-                    statusCode: 201,
-                    message: 'Account Created Successfully'
-                });
-            }
-        });
-    }
+    handler: controller.register
 };
 module.exports = register;

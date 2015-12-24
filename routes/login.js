@@ -1,6 +1,8 @@
 var Hapi = require('hapi');
 var Joi = require('joi');
 var UserModel = require('../models/user');
+var controller = require('../controllers/index');
+// var loginController = require('../controllers/login');
 var login ={
     method: 'POST',
     path: '/api/Login',
@@ -15,31 +17,6 @@ var login ={
             }
         }
     },
-    handler: function (request, reply) {
-
-      UserModel.find({email: request.payload.email}, function (error, data) {
-          if (error) {
-              reply({
-                  statusCode: 503,
-                  message: 'Failed to get data',
-                  data: error
-              });
-          } else {
-              if (data.length === 0) {
-                  reply({
-                      statusCode: 200,
-                      message: 'User Not Found',
-                      data: data
-                  });
-              } else {
-                  reply({
-                      statusCode: 200,
-                      message: 'User Data Successfully Fetched',
-                      data: data
-                  });
-              }
-          }
-      });
-    }
+    handler: controller.login
 };
 module.exports = login;
